@@ -10,9 +10,22 @@ export const GlobalStyle = createGlobalStyle`
   *::after {
     box-sizing: inherit;
   }
+
+  body {
+    width: 750px;
+    border: 1px solid #000;
+  }
+
+  button{
+    border: none;
+  }
+
+  a{
+    text-decoration: none;
+  }
 `;
 
-const BasicLayout = ({ children }: { children: any }) => {
+const Layout = ({ children }: { children: any }) => {
     return (
       <>
         <GlobalStyle />
@@ -21,4 +34,4 @@ const BasicLayout = ({ children }: { children: any }) => {
     );
   };
   
-  export default BasicLayout;
+  export default Layout;
