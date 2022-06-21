@@ -3,9 +3,15 @@ import IconHeader from '../components/IconHeader';
 import Blog from '../components/blog/Blog';
 import Filter from '../components/blog/Filter';
 import BlogList from '../components/blog/BlogList';
+import { useGetBlog } from '../hooks/useBlog';
 import styled from 'styled-components';
 
 const blogger = () => {
+    const { data: blogs, error } = useGetBlog('/blogs');
+
+    if (error) return <h1>Something went wrong</h1>;
+    if (!blogs) return <h1>Loading...</h1>;
+
     return (
         <Layout>
             <IconHeader />
@@ -20,7 +26,9 @@ const blogger = () => {
                 <Filter />
             </Divide>
             <Bar />
-            <BlogList />
+            {blogs.map((blog) => (
+                <BlogList blog={blog} key={blog.id} />
+            ))}
         </Layout>
     )
 }

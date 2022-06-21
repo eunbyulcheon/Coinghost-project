@@ -2,21 +2,21 @@ import styled from 'styled-components';
 import Likes from './Likes';
 import Comments from './Comments';
 
-const BlogList = () => {
+const BlogList = ({ blog }) => {
   return (
     <>
       <Container>
-        <BlogImage />
+        <BlogImage src={blog.thumnail.url}/>
         <Content> 
-          <Title>This is the blog title</Title>
+          <Title>{blog.title}</Title>
           <Info>
             <Left>
-              <Nickname>핫도그</Nickname>
-              <Time>17분 전</Time>
+              <Nickname>{blog.creator.nickname}</Nickname>
+              <Time>{blog.createdAt}분 전</Time>
             </Left>
             <Right>
-              <Likes />
-              <Comments />
+              <Likes blog={blog} />
+              <Comments blog={blog} />
             </Right>
           </Info>
         </Content>

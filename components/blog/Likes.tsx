@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const Likes = () => {
+const Likes = ({ blog }) => {
   return (
     <Box>
         <Heart />
-        <Count>0</Count>
+        <Count>{blog.likes}</Count>
     </Box>
   )
 }
