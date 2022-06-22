@@ -3,13 +3,17 @@ import Blog from '../components/blog/Blog';
 import Filter from '../components/blog/Filter';
 import BlogList from '../components/blog/BlogList';
 import Image from 'next/image';
-import useSWR from 'swr';
-import { baseUrl, fetcher, DataAPIType } from '../lib/BlogData';
+// import useSWR from 'swr';
+// import { baseUrl, fetcher, DataAPIType } from '../lib/BlogData';
+import { useInfiniteScroll } from '../lib/BlogData';
 import Layout from '../layout/Basic';
 import styled from 'styled-components';
 
 const Blogger = () => {
-	const { data, error } = useSWR<DataAPIType>(baseUrl, fetcher);
+	// const { data, error } = useSWR<DataAPIType>(baseUrl, fetcher);
+
+	const { data, error, isLoadingMore, size, setSize, isReachingEnd } =
+		useInfiniteScroll();
 
 	if (error) return <h1>Something went wrong</h1>;
 	if (!data) return <h1>Loading...</h1>;
@@ -44,7 +48,7 @@ const Blogger = () => {
 				<Filter />
 			</Divide>
 			<Bar />
-			{data?.data?.data?.map((blog) => (
+			{data?.data?.map((blog) => (
 				<BlogList blog={blog} key={blog.id} />
 			))}
 		</Layout>
