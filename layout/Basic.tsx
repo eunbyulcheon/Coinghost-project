@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -9,6 +9,8 @@ export const GlobalStyle = createGlobalStyle`
   *::before,
   *::after {
     box-sizing: inherit;
+    padding: 0;
+    margin: 0;
   }
 
   body {
@@ -26,12 +28,12 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 const Layout = ({ children }: { children: any }) => {
-    return (
-      <>
-        <GlobalStyle />
-        {children}
-      </>
-    );
-  };
-  
-  export default Layout;
+	return (
+		<>
+			<GlobalStyle />
+			{children}
+		</>
+	);
+};
+
+export default Layout;
