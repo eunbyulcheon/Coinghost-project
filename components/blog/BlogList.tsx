@@ -6,22 +6,27 @@ import 'moment/locale/ko';
 import styled from 'styled-components';
 import Image from 'next/image';
 
-const BlogList = ({ blog }: { blog: DataType }) => {
+interface Props {
+	blog: DataType;
+}
+
+const BlogList = ({ blog }: Props) => {
+	const { defaultThumbnail, title, creator, createdAt } = blog;
 	return (
 		<>
 			<Container>
 				<Image
-					src={blog.defaultThumbnail.url}
+					src={defaultThumbnail.url}
 					width={131}
 					height={102}
 					alt="user blog post"
 				/>
 				<Content>
-					<Title>{blog.title}</Title>
+					<Title>{title}</Title>
 					<Info>
 						<Left>
-							<Nickname>{blog.creator.nickName}</Nickname>
-							<Time>{moment(blog.createdAt).locale('ko').fromNow()}</Time>
+							<Nickname>{creator.nickName}</Nickname>
+							<Time>{moment(createdAt).locale('ko').fromNow()}</Time>
 						</Left>
 						<Right>
 							<Likes blog={blog} />

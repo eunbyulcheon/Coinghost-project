@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-const Post = () => {
+const WriteButton = () => {
 	return (
-		<Button>
+		<LinkButton>
 			<PostImage>
 				<Image src="/images/post.png" width={72} height={32} alt="post icon" />
 			</PostImage>
@@ -15,11 +15,11 @@ const Post = () => {
 					alt="writing icon"
 				/>
 			</WriteImage>
-		</Button>
+		</LinkButton>
 	);
 };
 
-const Button = styled.div`
+const LinkButton = styled.button`
 	position: relative;
 	width: 157px;
 	height: 53px;
@@ -43,4 +43,4 @@ const WriteImage = styled.div`
 	right: 18px;
 `;
 
-export default Post;
+export default WriteButton;

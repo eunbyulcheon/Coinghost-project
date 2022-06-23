@@ -1,28 +1,32 @@
-import { DataType } from '../../lib/BlogData';
+import { DataType } from '../../lib/Interface';
 import styled from 'styled-components';
 import Image from 'next/image';
 
-const Comments = ({ blog }: { blog: DataType }) => {
+interface Props {
+	blog: DataType;
+}
+
+const Comments = ({ blog }: Props) => {
 	return (
-		<Box>
+		<CommentDivide>
 			<Image
 				src="/images/comment.png"
 				width={28}
 				height={28}
 				alt="comment icon"
 			/>
-			<Count>{blog.comments}</Count>
-		</Box>
+			<Amount>{blog.comments}</Amount>
+		</CommentDivide>
 	);
 };
 
-const Box = styled.div`
+const CommentDivide = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 `;
 
-const Count = styled.p`
+const Amount = styled.p`
 	width: 15px;
 	height: 32px;
 	margin-left: 12px;

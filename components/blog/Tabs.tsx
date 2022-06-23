@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-const Filter = () => {
+const Tabs = () => {
 	return (
 		<LikedButton>
 			<MostLikedImage>
@@ -26,7 +26,7 @@ const Filter = () => {
 	);
 };
 
-const LikedButton = styled.div`
+const LikedButton = styled.button`
 	position: relative;
 	width: 250px;
 	height: 65px;
@@ -44,7 +44,7 @@ const MostLikedImage = styled.div`
 	font-weight: 500;
 `;
 
-const AllButton = styled.div`
+const AllButton = styled.button`
 	position: absolute;
 	top: 6px;
 	left: 8px;
@@ -63,4 +63,4 @@ const AllPostsImage = styled.div`
 	font-weight: 500;
 `;
 
-export default Filter;
+export default Tabs;
