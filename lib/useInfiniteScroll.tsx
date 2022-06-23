@@ -54,7 +54,7 @@ export const useInfiniteScroll = () => {
 // 		};
 // 	}, [observationTarget]);
 
-// 	return { data, error, isLoadingMore, isReachingEnd, setObservationTarget };
+// 	return { data, setObservationTarget };
 // };
 
 // 1st try

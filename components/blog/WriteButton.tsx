@@ -41,6 +41,7 @@ const WriteImage = styled.div`
 	position: absolute;
 	top: 10px;
 	right: 18px;
+	background-color: #5382eb;
 `;
 
 export default WriteButton;

@@ -1,4 +1,4 @@
-// import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { fetcher, baseUrl } from '../lib/DataFetcher';
 import { DataAPIType } from '../lib/types';
@@ -18,41 +18,34 @@ const Blogger = () => {
 		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}&orderBy=likes`;
 	};
 
-	const { data, error, size, setSize } = useSWRInfinite<DataAPIType>(
-		getKey,
-		fetcher
-	);
-	const blogs = data?.data?.flat();
-
-	const isReachedEnd = blogs && blogs[blogs.length - 1]?.length < PAGE_LIMIT;
+	const { data, size, setSize } = useSWRInfinite<DataAPIType>(getKey, fetcher);
+	const blogs =
+		data &&
+		data
+			.map((data) => data.data)
+			.map((data) => data.data)
+			.flat();
+	console.log(blogs);
 
 	const loadingMore = blogs && typeof blogs[size - 1] === 'undefined';
 
-	// console.log(data.data, size);
+	const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
 
-	// const isEmpty = data?.[0]?.length === 0;
-	// const isReachingEnd =
-	// 	isEmpty || (data && data[data.length - 1]?.length < PAGE_LIMIT);
+	useEffect(() => {
+		if (!target) return;
+		const observer = new IntersectionObserver(onIntersect, {
+			threshold: 0.5,
+		});
+		observer.observe(target);
+		return () => observer && observer.disconnect();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data, target]);
 
-	// const [target, setTarget] = useState(null);
-
-	// useEffect(() => {
-	// 	if (!target || !isReachingEnd) return;
-
-	// 	const observer = new IntersectionObserver(onIntersect, {
-	// 		threshold: 1,
-	// 	});
-
-	// 	observer.observe(target);
-
-	// 	return () => observer && observer.disconnect();
-	// }, [data, target]);
-
-	// const onIntersect: IntersectionObserverCallback = ([entry], observer) => {
-	// 	if (entry.isIntersecting) {
-	// 		setSize((prev) => prev + 1);
-	// 	}
-	// };
+	const onIntersect: IntersectionObserverCallback = ([entry]) => {
+		if (entry.isIntersecting) {
+			setSize((prev) => prev + 1);
+		}
+	};
 
 	return (
 		<Layout>
@@ -84,13 +77,9 @@ const Blogger = () => {
 			</ButtonsDivide>
 			<Bar />
 			{blogs?.map((blog) => {
-				console.log(blog.data);
 				return <BlogList key={blog.id} blog={blog} />;
 			})}
-			{loadingMore && <div>Loading...</div>}
-			{!isReachedEnd && (
-				<button onClick={() => setSize(size + 1)}>Load More</button>
-			)}
+			{loadingMore && <TargetElement ref={setTarget}>Loading...</TargetElement>}
 		</Layout>
 	);
 };
@@ -125,6 +114,11 @@ const Bar = styled.div`
 	height: 4px;
 	margin: 14px 42px 23px;
 	background-color: #5382eb;
+`;
+
+const TargetElement = styled.section`
+	width: 100%;
+	height: 100px;
 `;
 
 export default Blogger;

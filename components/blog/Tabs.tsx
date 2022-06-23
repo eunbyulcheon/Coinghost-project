@@ -38,6 +38,7 @@ const MostLikedButton = styled.button`
 	position: absolute;
 	top: 17px;
 	right: 30px;
+	background-color: #f0f6fd;
 	color: #909090;
 	font-size: 26px;
 	font-weight: 500;

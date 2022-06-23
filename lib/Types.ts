@@ -1,5 +1,5 @@
 export interface DataType {
-	map(arg0: (blog: any) => JSX.Element): any;
+	// map(arg0: (blog: any) => JSX.Element): any;
 	id: number;
 	title: string;
 	creator: { nickName: string };
