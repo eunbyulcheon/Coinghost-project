@@ -1,4 +1,4 @@
-import IconHeader from '../components/IconHeader';
+import IconHeader from '../components/common/IconHeader';
 import Blog from '../components/blog/Blog';
 import Filter from '../components/blog/Filter';
 import BlogList from '../components/blog/BlogList';
@@ -12,8 +12,7 @@ import styled from 'styled-components';
 const Blogger = () => {
 	// const { data, error } = useSWR<DataAPIType>(baseUrl, fetcher);
 
-	const { data, error, isLoadingMore, size, setSize, isReachingEnd } =
-		useInfiniteScroll();
+	const { ...swr, isLoadingMore, isReachingEnd } = useInfiniteScroll();
 
 	if (error) return <h1>Something went wrong</h1>;
 	if (!data) return <h1>Loading...</h1>;
@@ -49,7 +48,7 @@ const Blogger = () => {
 			</Divide>
 			<Bar />
 			{data?.data?.map((blog) => (
-				<BlogList blog={blog} key={blog.id} />
+				<BlogList key={blog.id} blog={blog} />
 			))}
 		</Layout>
 	);

@@ -1,6 +1,6 @@
 import Likes from './Likes';
 import Comments from './Comments';
-import { DataType } from '../../lib/BlogData';
+import { DataType } from '../../lib/Interface';
 import moment from 'moment';
 import 'moment/locale/ko';
 import styled from 'styled-components';

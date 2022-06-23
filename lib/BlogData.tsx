@@ -1,24 +1,6 @@
 import useSWRInfinite from 'swr/infinite';
 import { fetcher, baseUrl } from './DataFetcher';
-
-export interface DataType {
-	map(arg0: (blog: any) => JSX.Element): any;
-	id: number;
-	title: string;
-	creator: { nickName: string };
-	createdAt: string;
-	defaultThumbnail: { url: string };
-	likes: number;
-	comments: number;
-}
-
-export interface DataAPIType {
-	length: number;
-	data: {
-		data: DataType;
-		[x: string]: any;
-	};
-}
+import { DataAPIType } from './Interface';
 
 export const useInfiniteScroll = () => {
 	const PAGE_LIMIT = 10;
