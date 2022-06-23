@@ -1,4 +1,4 @@
-import { DataType } from '../../lib/BlogData';
+import { DataType } from '../../lib/types';
 import styled from 'styled-components';
 import Image from 'next/image';
 

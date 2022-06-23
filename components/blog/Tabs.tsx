@@ -3,30 +3,29 @@ import Image from 'next/image';
 
 const Tabs = () => {
 	return (
-		<LikedButton>
-			<MostLikedImage>
+		<TabsDivide>
+			<MostLikedButton>
 				<Image
 					src="/images/mostliked.png"
 					width={72}
 					height={32}
 					alt="most liked"
 				/>
-			</MostLikedImage>
+			</MostLikedButton>
+
 			<AllButton>
-				<AllPostsImage>
-					<Image
-						src="/images/allposts.png"
-						width={72}
-						height={32}
-						alt="all posts"
-					/>
-				</AllPostsImage>
+				<Image
+					src="/images/allposts.png"
+					width={72}
+					height={32}
+					alt="all posts"
+				/>
 			</AllButton>
-		</LikedButton>
+		</TabsDivide>
 	);
 };
 
-const LikedButton = styled.button`
+const TabsDivide = styled.div`
 	position: relative;
 	width: 250px;
 	height: 65px;
@@ -35,7 +34,7 @@ const LikedButton = styled.button`
 	background-color: #f0f6fd;
 `;
 
-const MostLikedImage = styled.div`
+const MostLikedButton = styled.button`
 	position: absolute;
 	top: 17px;
 	right: 30px;
@@ -53,12 +52,9 @@ const AllButton = styled.button`
 	height: 53px;
 	padding: 11px 22px 10px;
 	border-radius: 26.5px;
-	background-color: #5382eb;
-`;
-
-const AllPostsImage = styled.div`
-	text-align: center;
 	color: #fff;
+	background-color: #5382eb;
+	text-align: center;
 	font-size: 26px;
 	font-weight: 500;
 `;

@@ -1,4 +1,4 @@
-import { DataType } from '../../lib/Interface';
+import { DataType } from '../../lib/types';
 import styled from 'styled-components';
 import Image from 'next/image';
 

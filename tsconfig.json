@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/common/IconHeader.tsx", "lib/BlogData.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/common/IconHeader.tsx", "lib/useInfiniteScroll.tsx"],
   "exclude": ["node_modules"]
 }
