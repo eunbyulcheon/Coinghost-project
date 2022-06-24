@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { fetcher, baseUrl } from './DataFetcher';
 import { DataAPIType } from './types';
@@ -6,85 +6,40 @@ import { DataAPIType } from './types';
 export const useInfiniteScroll = () => {
 	const PAGE_LIMIT = 10;
 
-	const { data, error, size, setSize } = useSWRInfinite<DataAPIType>(
-		(index) => `${baseUrl}?limit=${PAGE_LIMIT}&page=${index + 1}&orderBy=likes`,
+	const getKey = (pageIndex: number, previousPageData: any) => {
+		if (previousPageData && !previousPageData.data) return null;
+		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}&orderBy=likes`;
+	};
+
+	const { data, setSize, isValidating } = useSWRInfinite<DataAPIType>(
+		getKey,
 		fetcher
 	);
 
-	const isLoadingInitialData = !data && !error;
-	const isLoadingMore =
-		isLoadingInitialData ||
-		(size > 0 && data && typeof data[size - 1] === 'undefined');
+	const blogs =
+		data &&
+		data
+			.map((data) => data.data)
+			.map((data) => data.data)
+			.flat();
 
-	const isEmpty = data?.[0]?.length === 0;
-	const isReachingEnd =
-		isEmpty || (data && data[data.length - 1]?.length < PAGE_LIMIT);
+	const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
 
-	return { data, error, setSize, isLoadingMore, isReachingEnd };
+	useEffect(() => {
+		if (!target) return;
+		const observer = new IntersectionObserver(onIntersect, {
+			threshold: 0.4,
+		});
+		observer.observe(target);
+		return () => observer && observer.disconnect();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data, target]);
+
+	const onIntersect: IntersectionObserverCallback = ([entry]) => {
+		if (entry.isIntersecting) {
+			setSize((prev) => prev + 1);
+		}
+	};
+
+	return { blogs, setTarget, isValidating };
 };
-
-//2nd try
-// 	const [observationTarget, setObservationTarget] = useState<
-// 		HTMLElement | null | undefined
-// 	>(null);
-
-// 	const observer = useRef(
-// 		new IntersectionObserver(
-// 			([entry]) => {
-// 				if (entry.isIntersecting) {
-// 					setSize((prev) => prev + 1);
-// 				}
-// 			},
-// 			{ threshold: 1 }
-// 		)
-// 	);
-
-// 	useEffect(() => {
-// 		const currentTarget = observationTarget;
-// 		const currentObserver = observer.current;
-
-// 		if (currentTarget) {
-// 			currentObserver.observe(currentTarget);
-// 		}
-
-// 		return () => {
-// 			if (currentTarget) {
-// 				currentObserver.unobserve(currentTarget);
-// 			}
-// 		};
-// 	}, [observationTarget]);
-
-// 	return { data, setObservationTarget };
-// };
-
-// 1st try
-// export const useIntersectionObserver = (callback: any) => {
-// 	const [observationTarget, setObservationTarget] = useState(null);
-
-// const observer = useRef(
-// 	new IntersectionObserver(
-// 		([entry]) => {
-// 			if (!entry.isIntersecting) return;
-// 			callback();
-// 		},
-// 		{ threshold: 1 }
-// 	)
-// );
-
-// 	useEffect(() => {
-// 		const currentTarget = observationTarget;
-// 		const currentObserver = observer.current;
-
-// 		if (currentTarget) {
-// 			currentObserver.observe(currentTarget);
-// 		}
-
-// 		return () => {
-// 			if (currentTarget) {
-// 				currentObserver.unobserve(currentTarget);
-// 			}
-// 		};
-// 	}, [observationTarget]);
-
-// 	return setObservationTarget;
-// };

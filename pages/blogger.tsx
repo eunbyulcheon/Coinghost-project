@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-import useSWRInfinite from 'swr/infinite';
-import { fetcher, baseUrl } from '../lib/DataFetcher';
-import { DataAPIType } from '../lib/types';
+import { useInfiniteScroll } from '../lib/useInfiniteScroll';
 import IconHeader from '../components/common/IconHeader';
 import WriteButton from '../components/blog/WriteButton';
 import Tabs from '../components/blog/Tabs';
@@ -11,42 +8,7 @@ import Layout from '../layout/Basic';
 import styled from 'styled-components';
 
 const Blogger = () => {
-	const PAGE_LIMIT = 10;
-
-	const getKey = (pageIndex: number, previousPageData: any) => {
-		if (previousPageData && !previousPageData.data) return null;
-		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}&orderBy=likes`;
-	};
-
-	const { data, setSize, isValidating } = useSWRInfinite<DataAPIType>(
-		getKey,
-		fetcher
-	);
-
-	const blogs =
-		data &&
-		data
-			.map((data) => data.data)
-			.map((data) => data.data)
-			.flat();
-
-	const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
-
-	useEffect(() => {
-		if (!target) return;
-		const observer = new IntersectionObserver(onIntersect, {
-			threshold: 0.4,
-		});
-		observer.observe(target);
-		return () => observer && observer.disconnect();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data, target]);
-
-	const onIntersect: IntersectionObserverCallback = ([entry]) => {
-		if (entry.isIntersecting) {
-			setSize((prev) => prev + 1);
-		}
-	};
+	const { blogs, setTarget, isValidating } = useInfiniteScroll();
 
 	return (
 		<Layout>
