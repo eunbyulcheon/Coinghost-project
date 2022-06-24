@@ -14,27 +14,28 @@ const Blogger = () => {
 	const PAGE_LIMIT = 10;
 
 	const getKey = (pageIndex: number, previousPageData: any) => {
-		if (previousPageData && !previousPageData.length) return null;
+		if (previousPageData && !previousPageData.data) return null;
 		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}&orderBy=likes`;
 	};
 
-	const { data, size, setSize } = useSWRInfinite<DataAPIType>(getKey, fetcher);
+	const { data, setSize, isValidating } = useSWRInfinite<DataAPIType>(
+		getKey,
+		fetcher
+	);
+
 	const blogs =
 		data &&
 		data
 			.map((data) => data.data)
 			.map((data) => data.data)
 			.flat();
-	console.log(blogs);
-
-	const loadingMore = blogs && typeof blogs[size - 1] === 'undefined';
 
 	const [target, setTarget] = useState<HTMLElement | null | undefined>(null);
 
 	useEffect(() => {
 		if (!target) return;
 		const observer = new IntersectionObserver(onIntersect, {
-			threshold: 0.5,
+			threshold: 0.4,
 		});
 		observer.observe(target);
 		return () => observer && observer.disconnect();
@@ -79,7 +80,8 @@ const Blogger = () => {
 			{blogs?.map((blog) => {
 				return <BlogList key={blog.id} blog={blog} />;
 			})}
-			{loadingMore && <TargetElement ref={setTarget}>Loading...</TargetElement>}
+			{isValidating && <div>로딩중...</div>}
+			{!isValidating && <TargetElement ref={setTarget}></TargetElement>}
 		</Layout>
 	);
 };
