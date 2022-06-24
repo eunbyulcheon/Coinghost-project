@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useInfiniteScroll } from '../lib/useInfiniteScroll';
 import IconHeader from '../components/common/IconHeader';
 import WriteButton from '../components/blog/WriteButton';
@@ -8,7 +9,20 @@ import Layout from '../layout/Basic';
 import styled from 'styled-components';
 
 const Blogger = () => {
-	const { blogs, setTarget, isValidating } = useInfiniteScroll();
+	const [likes, setLikes] = useState(false);
+	const [all, setAll] = useState(true);
+	const { blogs, setTarget, isValidating } = useInfiniteScroll({ likes });
+
+	const tabsHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+		console.log(e);
+		if (e.currentTarget.id === 'likes') {
+			setAll(false);
+			setLikes(true);
+		} else if (e.currentTarget.id === 'all') {
+			setLikes(false);
+			setAll(true);
+		}
+	};
 
 	return (
 		<Layout>
@@ -36,7 +50,7 @@ const Blogger = () => {
 			/>
 			<ButtonsDivide>
 				<WriteButton />
-				<Tabs />
+				<Tabs tabsHandler={tabsHandler} likes={likes} all={all} />
 			</ButtonsDivide>
 			<Bar />
 			{blogs?.map((blog) => {

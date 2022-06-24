@@ -3,12 +3,16 @@ import useSWRInfinite from 'swr/infinite';
 import { fetcher, baseUrl } from './DataFetcher';
 import { DataAPIType } from './types';
 
-export const useInfiniteScroll = () => {
+export const useInfiniteScroll = ({ likes }: { likes: boolean }) => {
 	const PAGE_LIMIT = 10;
 
 	const getKey = (pageIndex: number, previousPageData: any) => {
 		if (previousPageData && !previousPageData.data) return null;
-		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}&orderBy=likes`;
+		let orderBy = '';
+		if (likes) {
+			return (orderBy = `&orderBy=likes`);
+		}
+		return `${baseUrl}?limit=${PAGE_LIMIT}&page=${pageIndex + 1}${orderBy}`;
 	};
 
 	const { data, setSize, isValidating } = useSWRInfinite<DataAPIType>(

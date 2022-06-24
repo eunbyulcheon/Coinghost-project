@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
-const Tabs = () => {
+const Tabs = ({ likes, all, tabsHandler }: any) => {
 	return (
 		<TabsDivide>
-			<MostLikedButton>
+			<MostLikedButton id={likes} onClick={(e) => tabsHandler(e)}>
 				<Image
 					src="/images/mostliked.png"
 					width={72}
@@ -13,7 +13,7 @@ const Tabs = () => {
 				/>
 			</MostLikedButton>
 
-			<AllButton>
+			<AllButton id={all} onClick={(e) => tabsHandler(e)}>
 				<Image
 					src="/images/allposts.png"
 					width={72}
@@ -42,6 +42,7 @@ const MostLikedButton = styled.button`
 	color: #909090;
 	font-size: 26px;
 	font-weight: 500;
+	cursor: pointer;
 `;
 
 const AllButton = styled.button`
@@ -58,6 +59,7 @@ const AllButton = styled.button`
 	text-align: center;
 	font-size: 26px;
 	font-weight: 500;
+	cursor: pointer;
 `;
 
 export default Tabs;
