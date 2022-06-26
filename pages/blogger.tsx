@@ -13,8 +13,8 @@ const Blogger = () => {
 	const [all, setAll] = useState(true);
 	const { blogs, setTarget, isValidating } = useInfiniteScroll({ likes });
 
-	const tabsHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
-		console.log(e);
+	const tabsHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		// console.log(e.currentTarget.id);
 		if (e.currentTarget.id === 'likes') {
 			setAll(false);
 			setLikes(true);

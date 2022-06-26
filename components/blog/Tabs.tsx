@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 import Image from 'next/image';
+import React from 'react';
 
-const Tabs = ({ likes, all, tabsHandler }: any) => {
+interface Props {
+	likes: boolean;
+	all: boolean;
+	tabsHandler: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+interface ButtonProps {
+	active: boolean;
+}
+
+const Tabs = ({ likes, all, tabsHandler }: Props) => {
 	return (
 		<TabsDivide>
-			<MostLikedButton id={likes} onClick={(e) => tabsHandler(e)}>
-				<Image
-					src="/images/mostliked.png"
-					width={72}
-					height={32}
-					alt="most liked"
-				/>
-			</MostLikedButton>
-
-			<AllButton id={all} onClick={(e) => tabsHandler(e)}>
+			<AllButton id="all" active={likes} onClick={(e) => tabsHandler(e)}>
 				<Image
 					src="/images/allposts.png"
 					width={72}
@@ -21,6 +23,15 @@ const Tabs = ({ likes, all, tabsHandler }: any) => {
 					alt="all posts"
 				/>
 			</AllButton>
+
+			<MostLikedButton id="likes" active={all} onClick={(e) => tabsHandler(e)}>
+				<Image
+					src="/images/mostliked.png"
+					width={72}
+					height={32}
+					alt="most liked"
+				/>
+			</MostLikedButton>
 		</TabsDivide>
 	);
 };
@@ -34,18 +45,7 @@ const TabsDivide = styled.div`
 	background-color: #f0f6fd;
 `;
 
-const MostLikedButton = styled.button`
-	position: absolute;
-	top: 17px;
-	right: 30px;
-	background-color: #f0f6fd;
-	color: #909090;
-	font-size: 26px;
-	font-weight: 500;
-	cursor: pointer;
-`;
-
-const AllButton = styled.button`
+const AllButton = styled.button<ButtonProps>`
 	position: absolute;
 	top: 6px;
 	left: 8px;
@@ -54,12 +54,16 @@ const AllButton = styled.button`
 	height: 53px;
 	padding: 11px 22px 10px;
 	border-radius: 26.5px;
-	color: #fff;
-	background-color: #5382eb;
+	background-color: ${(props) => (props?.active ? '#f0f6fd' : '#5382eb')};
 	text-align: center;
 	font-size: 26px;
 	font-weight: 500;
 	cursor: pointer;
+`;
+
+const MostLikedButton = styled(AllButton)<ButtonProps>`
+	left: 125px;
+	background-color: ${(props) => (props?.active ? '#f0f6fd' : '#5382eb')};
 `;
 
 export default Tabs;

@@ -24,6 +24,7 @@ const CommentDivide = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-left: 15px;
 `;
 
 const Amount = styled.p`

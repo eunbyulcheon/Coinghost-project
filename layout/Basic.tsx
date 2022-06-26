@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     width: 750px;
+    margin: 0 auto;
     border: 1px solid #000;
   }
 
