@@ -1,21 +1,49 @@
 import Header from '../../components/detail/Header';
 import Footer from '../../components/detail/Footer';
 import Image from 'next/image';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { baseUrl } from '../../lib/DataFetcher';
+import { BlogType } from '../../lib/Types';
 import styled from 'styled-components';
 import { AiOutlineMore } from 'react-icons/ai';
 
-const Detail = () => {
+interface Props {
+	blog: BlogType;
+}
+
+const Detail = ({ blog }: Props) => {
+	const {
+		title,
+		createdAt,
+		defaultThumbnail,
+		thumbnail,
+		creator,
+		views,
+		likes,
+		comments,
+		contents,
+	} = blog;
+	console.log(thumbnail);
+
 	return (
 		<>
 			<Header />
-			<Title>제목</Title>
+			<Title>{title}</Title>
 			<PostDetail>
-				<ImageDivide />
+				<ImageDivide>
+					<Image
+						src={thumbnail?.url}
+						width={80}
+						height={80}
+						layout="fill"
+						alt="user profile"
+					/>
+				</ImageDivide>
 				<PostInfo>
-					<Nickname>코드민</Nickname>
+					<Nickname>{creator?.nickName}</Nickname>
 					<TimeInfo>
-						<Time>2021.10.12 18:22</Time>
-						<Views>조회수 134</Views>
+						<Time>{createdAt}</Time>
+						<Views>조회수 {views}</Views>
 					</TimeInfo>
 				</PostInfo>
 				<AiOutlineMore
@@ -30,10 +58,10 @@ const Detail = () => {
 				/>
 			</PostDetail>
 			<Bar />
-			<UserReview>유저가 쓴 리뷰 글</UserReview>
+			<UserReview>{contents}</UserReview>
 			<ThumbnailDivide>
 				<Image
-					src="/images/detail/pencil.jpg"
+					src={defaultThumbnail?.url}
 					alt="user upload"
 					width={666}
 					height={357}
@@ -53,18 +81,18 @@ const Detail = () => {
 						width={39}
 						height={39}
 					/>
-					<LikesAmount>13</LikesAmount>
+					<LikesAmount>{likes}</LikesAmount>
 					<Image
 						src="/images/blog/comment.png"
 						alt="review"
 						width={39}
 						height={39}
 					/>
-					<ReviewAmount>12</ReviewAmount>
+					<ReviewAmount>{comments}</ReviewAmount>
 				</Icons>
 			</ReviewHead>
 			<ReviewForm>
-				<UserName>서제리</UserName>
+				<UserName>{creator?.nickName}</UserName>
 				<ReviewInput placeholder="댓글을 남겨주세요." />
 				<FormBtn>등록</FormBtn>
 			</ReviewForm>
@@ -96,6 +124,25 @@ const Detail = () => {
 			<Footer />
 		</>
 	);
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	const res = await fetch(`${baseUrl}`);
+	const data = await res.json();
+	const blogs = data?.data.data;
+
+	const paths = blogs.map((blog: { id: number }) => ({
+		params: { id: blog.id.toString() },
+	}));
+
+	return { paths, fallback: true };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+	const res = await fetch(`${baseUrl}/${params?.id}`);
+	const blog = await res.json();
+
+	return { props: { blog } };
 };
 
 const Title = styled.h1`

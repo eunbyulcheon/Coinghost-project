@@ -16,3 +16,15 @@ export interface DataAPIType {
 		[x: string]: any;
 	};
 }
+
+export interface BlogType {
+	title: string;
+	createdAt: string;
+	defaultThumbnail: { url: string };
+	thumbnail: { url: string };
+	creator: { nickName: string };
+	views: number;
+	likes: number;
+	comments: number;
+	contents: string;
+}
