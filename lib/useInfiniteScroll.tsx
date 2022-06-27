@@ -11,6 +11,7 @@ export const useInfiniteScroll = ({ likes }: { likes: boolean }) => {
 		previousPageData: { data: { data: object } }
 	) => {
 		if (previousPageData && !previousPageData.data) return null;
+		console.log(previousPageData);
 		let orderBy = '';
 		if (likes) {
 			orderBy = `&orderBy=likes`;

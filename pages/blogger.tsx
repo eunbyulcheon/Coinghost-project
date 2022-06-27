@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useInfiniteScroll } from '../lib/useInfiniteScroll';
 import IconHeader from '../components/common/IconHeader';
 import WriteButton from '../components/blog/WriteButton';
 import Tabs from '../components/blog/Tabs';
 import BlogList from '../components/blog/BlogList';
-import Image from 'next/image';
 import Layout from '../layout/Basic';
 import styled from 'styled-components';
 
@@ -54,7 +55,13 @@ const Blogger = () => {
 			</ButtonsDivide>
 			<Bar />
 			{blogs?.map((blog) => {
-				return <BlogList key={blog.id} blog={blog} />;
+				return (
+					<Link href="/blogs/[id]" as={`/blogs/${blog.id}`}>
+						<a>
+							<BlogList key={blog.id} blog={blog} />
+						</a>
+					</Link>
+				);
 			})}
 			{isValidating && <div>로딩중...</div>}
 			{!isValidating && <TargetElement ref={setTarget}></TargetElement>}

@@ -1,6 +1,6 @@
 import Likes from './Likes';
 import Comments from './Comments';
-import { DataType } from '../../lib/types';
+import { DataType } from '../../lib/Types';
 import moment from 'moment';
 import 'moment/locale/ko';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ const BlogList = ({ blog }: Props) => {
 					<Title>{title}</Title>
 					<Info>
 						<Left>
-							<Nickname>{creator.nickName}</Nickname>
+							<Nickname>{creator?.nickName}</Nickname>
 							<Time>{moment(createdAt).locale('ko').fromNow()}</Time>
 						</Left>
 						<Right>
