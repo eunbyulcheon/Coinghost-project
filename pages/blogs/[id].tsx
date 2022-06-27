@@ -1,17 +1,17 @@
 import Header from '../../components/detail/Header';
 import Footer from '../../components/detail/Footer';
 import Image from 'next/image';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { baseUrl } from '../../lib/DataFetcher';
 import { BlogType } from '../../lib/Types';
 import styled from 'styled-components';
 import { AiOutlineMore } from 'react-icons/ai';
 
-interface Props {
-	blog: BlogType;
-}
+// interface Props {
+// 	blog: BlogType;
+// }
 
-const Detail = ({ blog }: Props) => {
+const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 	const {
 		title,
 		createdAt,
@@ -23,7 +23,6 @@ const Detail = ({ blog }: Props) => {
 		comments,
 		contents,
 	} = blog;
-	console.log(thumbnail);
 
 	return (
 		<>
