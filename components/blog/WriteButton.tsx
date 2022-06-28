@@ -9,7 +9,7 @@ const WriteButton = () => {
 			</PostImage>
 			<WriteImage>
 				<Image
-					src="/images/write.jpg"
+					src="/images/blog/write_icon.png"
 					width={32}
 					height={32}
 					alt="writing icon"

@@ -1,28 +1,16 @@
 import Header from '../../components/detail/Header';
+import MoreReviews from '../../components/detail/MoreReviews';
 import Footer from '../../components/detail/Footer';
 import Image from 'next/image';
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import { baseUrl } from '../../lib/DataFetcher';
-import { BlogType } from '../../lib/Types';
+import moment from 'moment';
 import styled from 'styled-components';
 import { AiOutlineMore } from 'react-icons/ai';
 
-// interface Props {
-// 	blog: BlogType;
-// }
-
 const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
-	const {
-		title,
-		createdAt,
-		defaultThumbnail,
-		thumbnail,
-		creator,
-		views,
-		likes,
-		comments,
-		contents,
-	} = blog;
+	const { title, createdAt, creator, views, likes, comments, contents } =
+		blog.data.data;
 
 	return (
 		<>
@@ -31,17 +19,17 @@ const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 			<PostDetail>
 				<ImageDivide>
 					<Image
-						src={thumbnail?.url}
+						src="/images/detail/default_user.png"
 						width={80}
 						height={80}
-						layout="fill"
+						layout="responsive"
 						alt="user profile"
 					/>
 				</ImageDivide>
 				<PostInfo>
 					<Nickname>{creator?.nickName}</Nickname>
 					<TimeInfo>
-						<Time>{createdAt}</Time>
+						<Time>{moment(createdAt).format('YYYY.MM.DD hh:mm')}</Time>
 						<Views>조회수 {views}</Views>
 					</TimeInfo>
 				</PostInfo>
@@ -58,19 +46,18 @@ const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 			</PostDetail>
 			<Bar />
 			<UserReview>{contents}</UserReview>
-			<ThumbnailDivide>
-				<Image
-					src={defaultThumbnail?.url}
-					alt="user upload"
-					width={666}
-					height={357}
-					layout="responsive"
-				/>
-			</ThumbnailDivide>
 			<MultiBtn>
 				<ListBtn>몰록</ListBtn>
 				<UrlBtn>URL 복사</UrlBtn>
 			</MultiBtn>
+			<BlogBanner>
+				<Image
+					src="/images/detail/blogBanner.png"
+					alt="blog banner"
+					width={666}
+					height={130}
+				/>
+			</BlogBanner>
 			<ReviewHead>
 				<ReviewTitle>댓글</ReviewTitle>
 				<Icons>
@@ -107,19 +94,7 @@ const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 					<br />첫 댓글을 작성해 보세요.
 				</Content>
 			</ReviewViewer>
-			<PrevReview>
-				<Image src="/images/detail/up.png" alt="up" width={20} height={15} />
-				<Category>이전글</Category>
-				<Text>이전 글</Text>
-				<ReviewTime>2021.10.12</ReviewTime>
-			</PrevReview>
-			<SecondBar />
-			<NextReview>
-				<Image src="/images/detail/down.png" alt="up" width={20} height={15} />
-				<Category>다음글</Category>
-				<Text>다음 글</Text>
-				<ReviewTime>2021.10.12</ReviewTime>
-			</NextReview>
+			<MoreReviews />
 			<Footer />
 		</>
 	);
@@ -140,12 +115,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const res = await fetch(`${baseUrl}/${params?.id}`);
 	const blog = await res.json();
+	console.log(params);
 
 	return { props: { blog } };
 };
 
 const Title = styled.h1`
-	width: 428px;
+	width: 666px;
 	height: 41px;
 	margin: 40px 36px 45px 42px;
 	font-size: 33px;
@@ -168,7 +144,6 @@ const ImageDivide = styled.div`
 	width: 80px;
 	height: 80px;
 	margin-right: 22px;
-	border: 1px solid #000;
 	border-radius: 50%;
 `;
 
@@ -226,18 +201,16 @@ const UserReview = styled.div`
 	color: #2b2b2b;
 `;
 
-const ThumbnailDivide = styled.div`
-	width: 666px;
-	height: 357px;
-	margin: 0 auto;
-`;
-
 const MultiBtn = styled.div`
 	display: flex;
 	justify-content: space-between;
 	width: 666px;
 	height: 53px;
 	margin: 45px auto;
+`;
+
+const BlogBanner = styled.div`
+	margin-left: 42px;
 `;
 
 const ListBtn = styled.button`
@@ -346,53 +319,5 @@ const Content = styled.div`
 	line-height: 1.15;
 	letter-spacing: -0.65px;
 `;
-
-const PrevReview = styled.div`
-	position: relative;
-	display: flex;
-	align-items: center;
-	width: 666px;
-	height: 71px;
-	margin: 0 auto;
-`;
-
-const Category = styled.p`
-	width: 60px;
-	height: 27px;
-	margin: 25px 23px 19px 21px;
-	font-size: 22px;
-	font-weight: 500;
-	text-align: left;
-	color: #6f7070;
-`;
-
-const Text = styled.p`
-	max-width: 390px;
-	height: 27px;
-	margin: 25px 90px 19px 23px;
-	font-size: 22px;
-	text-align: left;
-	color: #6f7070;
-`;
-
-const ReviewTime = styled.p`
-	position: absolute;
-	right: 0;
-	width: 112px;
-	height: 27px;
-	margin: 25px 0 19px 1px;
-	font-size: 22px;
-	text-align: right;
-	color: #6f7070;
-`;
-
-const SecondBar = styled.div`
-	width: 666px;
-	height: 1px;
-	margin: 0 42px 0 42.5px;
-	background-color: #d5d5d5;
-`;
-
-const NextReview = styled(PrevReview)``;
 
 export default Detail;
