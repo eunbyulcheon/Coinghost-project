@@ -168,6 +168,15 @@ const ConditionsText = styled.div`
 	letter-spacing: -0.25px;
 	text-align: left;
 	color: #6f7070;
+
+	&::-webkit-scrollbar {
+		width: 3px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #b2c3ea;
+		border-radius: 1.5px;
+	}
 `;
 
 const OptionalCondition = styled(RequiredConditions)``;
