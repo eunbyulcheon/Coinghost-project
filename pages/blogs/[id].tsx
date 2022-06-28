@@ -115,7 +115,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
 	const res = await fetch(`${baseUrl}/${params?.id}`);
 	const blog = await res.json();
-	console.log(params);
 
 	return { props: { blog } };
 };
@@ -191,9 +190,10 @@ const Bar = styled.div`
 `;
 
 const UserReview = styled.div`
-	width: 608px;
+	width: 666px;
 	height: 152px;
 	margin: 25.8px 21px 23px 42px;
+	overflow: hidden;
 	font-size: 26px;
 	line-height: 1.54;
 	letter-spacing: normal;
@@ -272,7 +272,7 @@ const ReviewForm = styled.form`
 `;
 
 const UserName = styled.h3`
-	width: 76px;
+	width: 300px;
 	height: 35px;
 	margin: 0 451px 14px 0;
 	text-align: left;
