@@ -16,7 +16,7 @@ const BlogList = ({ blog }: Props) => {
 		<>
 			<Container>
 				<Image
-					src={defaultThumbnail.url}
+					src={defaultThumbnail?.url}
 					width={131}
 					height={102}
 					alt="user blog post"

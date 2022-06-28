@@ -6,7 +6,6 @@ import IconHeader from '../components/common/IconHeader';
 import WriteButton from '../components/blog/WriteButton';
 import Tabs from '../components/blog/Tabs';
 import BlogList from '../components/blog/BlogList';
-import Layout from '../layout/Basic';
 import styled from 'styled-components';
 
 const Blogger = () => {
@@ -26,7 +25,7 @@ const Blogger = () => {
 	};
 
 	return (
-		<Layout>
+		<BlogSection>
 			<IconHeader />
 			<Header>
 				<Image
@@ -65,9 +64,11 @@ const Blogger = () => {
 			})}
 			{isValidating && <div>로딩중...</div>}
 			{!isValidating && <TargetElement ref={setTarget}></TargetElement>}
-		</Layout>
+		</BlogSection>
 	);
 };
+
+const BlogSection = styled.section``;
 
 const Header = styled.div`
 	display: flex;

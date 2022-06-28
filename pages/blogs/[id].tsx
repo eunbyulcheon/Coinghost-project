@@ -13,7 +13,7 @@ const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 		blog.data.data;
 
 	return (
-		<>
+		<DetailSection>
 			<Header />
 			<Title>{title}</Title>
 			<PostDetail>
@@ -96,7 +96,7 @@ const Detail = ({ blog }: InferGetStaticPropsType<typeof getStaticProps>) => {
 			</ReviewViewer>
 			<MoreReviews />
 			<Footer />
-		</>
+		</DetailSection>
 	);
 };
 
@@ -118,6 +118,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 	return { props: { blog } };
 };
+
+const DetailSection = styled.section``;
 
 const Title = styled.h1`
 	width: 666px;

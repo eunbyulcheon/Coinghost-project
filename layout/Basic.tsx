@@ -14,6 +14,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    width: 100%;
+  }
+
+  section {
     width: 750px;
     margin: 0 auto;
     border: 1px solid #000;
