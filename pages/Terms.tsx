@@ -1,78 +1,90 @@
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import Header from '../components/signup/Header';
 import Footer from '../components/signup/Footer';
 import styled from 'styled-components';
 import { RiCheckboxCircleLine } from 'react-icons/ri';
+
+// interface FormInputData {
+// 	checkboxId: boolean;
+// }
 
 const Terms = () => {
 	return (
 		<>
 			<Header />
 
-			<SelectAllBtn>
-				<CheckboxIcon>
-					<RiCheckboxCircleLine />
-				</CheckboxIcon>
-				<SelectAllText>
-					코인고스트 이용약관, 개인정보 처리방침, 이벤트 및 정보 안내
-					수신(선택)에 모두 동의합니다.
-				</SelectAllText>
-			</SelectAllBtn>
-
-			<Bar />
-
-			{termsList.map((list) => (
-				<RequiredConditions key={list.id}>
-					<Flex>
-						<CheckboxIcon>
-							<RiCheckboxCircleLine />
-						</CheckboxIcon>
-						<Context>
-							{list.title}
-							<span>(필수)</span>
-						</Context>
-					</Flex>
-					<ConditionsText>
-						네이버 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본
-						약관은 다양한 네이버 서비스의 이용과 관련하여 네이버 서비스를
-						제공하는 네이버 주식회사(이하 ‘네이버’)와 이를 이용하는 네이버
-						서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러
-						여러분의 네이버 서비스 이용에 도움이 될 수 있는 유익한 정보를
-						포함하고 있습니다. 네이버 서비스를 이용하시거나 네이버 서비스
-						회원으로 가입하실 경우 여러분은 본 약관 및 관련 운영 정책을
-						확인하거나 동의하게 되므로, 잠시 시간을 내시어 주의 깊게 살펴봐
-						주시기 바랍니다. 네이버 서비스 및 제품(이하 ‘서비스’)을 이용해
-						주셔서 감사합니다. 본 약관은 다양한 네이버 서비스의 이용과 관련하여
-						네이버 서비스를 제공하는 네이버 주식회사(이하 ‘네이버’)와 이를
-						이용하는 네이버 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를
-						설명하며, 아울러 여러분의 네이버 서비스 이용에 도움이 될 수 있는
-						유익한 정보를 포함하고 있습니다.
-					</ConditionsText>
-				</RequiredConditions>
-			))}
-
-			<OptionalCondition>
-				<Flex>
-					<CheckboxIcon>
+			<TermsForm>
+				<SelectAllBtn>
+					<AllCheckbox type="checkbox" />
+					<RiCheckbox>
 						<RiCheckboxCircleLine />
-					</CheckboxIcon>
-					<Context>
-						이벤트 및 정보 안내 수신
-						<span>(선택)</span>
-					</Context>
-				</Flex>
-				<OptionalConditionText>
-					네이버에서 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화(네이버앱
-					알림 또는 문자), 이메일로 받아 보실 수 있습니다. 일부 서비스(별도 회원
-					체계로 운영하거나 네이버 가입 이후 추가 가입하여 이용하는 서비스 등)의
-					경우, 개별 서비스에 대해 별도 수신 동의를 받을 수 있으며, 이때에도
-					수신 동의에 대해 별도 로 안내하고 동의를 받습니다.
-				</OptionalConditionText>
-			</OptionalCondition>
+					</RiCheckbox>
+					<SelectAllLabel>
+						코인고스트 이용약관, 개인정보 처리방침, 이벤트 및 정보 안내
+						수신(선택)에 모두 동의합니다.
+					</SelectAllLabel>
+				</SelectAllBtn>
 
-			<BtnDivide>
-				<CancelBtn>취소</CancelBtn>
-				<NextBtn>다음</NextBtn>
-			</BtnDivide>
+				<Bar />
+
+				{termsList.map((list) => (
+					<RequiredConditions key={list.id}>
+						<Flex>
+							<Checkbox type="checkbox" id={list.checkboxId} />
+							<RiCheckbox>
+								<RiCheckboxCircleLine />
+							</RiCheckbox>
+							<CheckboxLabel>
+								{list.title}
+								<span>(필수)</span>
+							</CheckboxLabel>
+						</Flex>
+						<ConditionsText>
+							네이버 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다.
+							본 약관은 다양한 네이버 서비스의 이용과 관련하여 네이버 서비스를
+							제공하는 네이버 주식회사(이하 ‘네이버’)와 이를 이용하는 네이버
+							서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러
+							여러분의 네이버 서비스 이용에 도움이 될 수 있는 유익한 정보를
+							포함하고 있습니다. 네이버 서비스를 이용하시거나 네이버 서비스
+							회원으로 가입하실 경우 여러분은 본 약관 및 관련 운영 정책을
+							확인하거나 동의하게 되므로, 잠시 시간을 내시어 주의 깊게 살펴봐
+							주시기 바랍니다. 네이버 서비스 및 제품(이하 ‘서비스’)을 이용해
+							주셔서 감사합니다. 본 약관은 다양한 네이버 서비스의 이용과
+							관련하여 네이버 서비스를 제공하는 네이버 주식회사(이하 ‘네이버’)와
+							이를 이용하는 네이버 서비스 회원(이하 ‘회원’) 또는 비회원과의
+							관계를 설명하며, 아울러 여러분의 네이버 서비스 이용에 도움이 될 수
+							있는 유익한 정보를 포함하고 있습니다.
+						</ConditionsText>
+					</RequiredConditions>
+				))}
+
+				<OptionalCondition>
+					<Flex>
+						<Checkbox type="checkbox" id="notifications" />
+						<RiCheckbox>
+							<RiCheckboxCircleLine />
+						</RiCheckbox>
+						<CheckboxLabel>
+							이벤트 및 정보 안내 수신
+							<span>(선택)</span>
+						</CheckboxLabel>
+					</Flex>
+					<OptionalConditionText>
+						네이버에서 제공하는 이벤트/혜택 등 다양한 정보를 휴대전화(네이버앱
+						알림 또는 문자), 이메일로 받아 보실 수 있습니다. 일부 서비스(별도
+						회원 체계로 운영하거나 네이버 가입 이후 추가 가입하여 이용하는
+						서비스 등)의 경우, 개별 서비스에 대해 별도 수신 동의를 받을 수
+						있으며, 이때에도 수신 동의에 대해 별도 로 안내하고 동의를 받습니다.
+					</OptionalConditionText>
+				</OptionalCondition>
+
+				<BtnDivide>
+					<CancelBtn>취소</CancelBtn>
+					<NextBtn>다음</NextBtn>
+				</BtnDivide>
+			</TermsForm>
 
 			<Footer />
 		</>
@@ -83,32 +95,41 @@ const termsList = [
 	{
 		id: 1,
 		title: '코인고스트 이용약관 동의',
+		checkboxId: 'coinghostTerms',
 	},
 	{
 		id: 2,
 		title: '윌렛 이용약관 동의',
+		checkboxId: 'wheelerTerms',
 	},
 	{
 		id: 3,
 		title: '개인정보 처리방침',
+		checkboxId: 'personalInfoTerms',
 	},
 ];
 
+const TermsForm = styled.form``;
+
 const SelectAllBtn = styled.div`
+	position: relative;
 	display: flex;
 	align-items: flex-start;
 	width: 490px;
 	margin: 0 auto;
 `;
 
-const CheckboxIcon = styled.div`
-	font-size: 25px;
-	background-color: #fff;
-	color: #c6c6c6;
-	/* color: #2b2b2b; */
+const AllCheckbox = styled.input`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	cursor: pointer;
 `;
 
-const SelectAllText = styled.p`
+const SelectAllLabel = styled.label`
 	width: 461px;
 	height: 36px;
 	margin-left: 8px;
@@ -132,12 +153,27 @@ const RequiredConditions = styled.div`
 `;
 
 const Flex = styled.div`
+	position: relative;
 	display: flex;
 	align-items: center;
 	line-height: 18px;
 `;
 
-const Context = styled.p`
+const Checkbox = styled.input`
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+`;
+
+const RiCheckbox = styled(RiCheckboxCircleLine)`
+	width: 20px;
+	height: 20px;
+	background-color: #fff;
+	color: #c6c6c6;
+`;
+
+const CheckboxLabel = styled.p`
 	width: 200px;
 	height: 18px;
 	margin-left: 8px;

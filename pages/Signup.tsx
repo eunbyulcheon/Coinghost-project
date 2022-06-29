@@ -1,14 +1,49 @@
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import Header from '../components/signup/Header';
 import Footer from '../components/signup/Footer';
 import styled from 'styled-components';
 import Image from 'next/image';
 
+interface FormInputData {
+	phone: string;
+	code: string;
+	password: string;
+	pwConfirm: string;
+	nickname: string;
+}
+
+const schema = yup.object().shape({
+	phone: yup.string().length(13, '형식에 맞지 않는 번호입니다.'),
+	code: yup.string().length(6, '인증번호가 틀렸습니다. 다시 시도해 주세요.'),
+	password: yup
+		.string()
+		.matches(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/,
+			'8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.'
+		),
+	pwConfirm: yup
+		.string()
+		.oneOf([yup.ref('password')], '패스워드가 일치하지 않습니다.'),
+	nickname: yup.string(),
+});
+
 const Signup = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormInputData>({ resolver: yupResolver(schema) });
+
+	const onSubmitHandler: SubmitHandler<FormInputData> = (data) =>
+		console.log(data);
+
 	return (
 		<>
 			<Header />
 
-			<SignUpForm>
+			<SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
 				<Phone>
 					<PhoneLabel>
 						<Title>계정 생성</Title>
@@ -17,7 +52,7 @@ const Signup = () => {
 						</Description>
 					</PhoneLabel>
 					<AreaCode>
-						대한민국 +82{' '}
+						대한민국 +82
 						<Dropdown>
 							<Image
 								src="/images/signup/dropdown.png"
@@ -28,18 +63,30 @@ const Signup = () => {
 						</Dropdown>
 					</AreaCode>
 					<Flex>
-						<Input type="number" placeholder="전화번호 입력" />
+						<Input
+							type="string"
+							placeholder="전화번호 입력"
+							id="phone"
+							{...register('phone', { value: '82-' })}
+						/>
 						<Btn>인증번호 받기</Btn>
 					</Flex>
+					{errors.phone && <Message>{errors.phone?.message}</Message>}
 					<Flex>
-						<Input type="number" placeholder="인증번호" />
+						<Input
+							type="text"
+							placeholder="인증번호"
+							id="code"
+							{...register('code')}
+						/>
 						<Btn>인증하기</Btn>
 					</Flex>
+					{errors.code && <Message>{errors.code?.message}</Message>}
 				</Phone>
 
 				<Password>
 					<PwLabel>패스워드</PwLabel>
-					<PwInput type="text" />
+					<PwInput type="password" id="password" {...register('password')} />
 					<ShowIcon>
 						<Image
 							src="/images/signup/see.png"
@@ -48,11 +95,16 @@ const Signup = () => {
 							alt="show password"
 						/>
 					</ShowIcon>
+					{errors.password && <Message>{errors.password?.message}</Message>}
 				</Password>
 
 				<ConfirmPw>
 					<ConfirmPwLabel>패스워드 재확인</ConfirmPwLabel>
-					<ConfirmPwInput type="text" />
+					<ConfirmPwInput
+						type="password"
+						id="pwConfirm"
+						{...register('pwConfirm')}
+					/>
 					<ShowIcon>
 						<Image
 							src="/images/signup/see.png"
@@ -61,14 +113,16 @@ const Signup = () => {
 							alt="show password"
 						/>
 					</ShowIcon>
+					{errors.pwConfirm && <Message>{errors.pwConfirm?.message}</Message>}
 				</ConfirmPw>
 
 				<Nickname>
 					<NicknameLabel>닉네임</NicknameLabel>
 					<Flex>
-						<Input type="text" />
+						<Input type="text" id="nickname" {...register('nickname')} />
 						<Btn>중복확인</Btn>
 					</Flex>
+					{errors.nickname && <Message>{errors.nickname?.message}</Message>}
 				</Nickname>
 
 				<ProfilePicture>
@@ -79,7 +133,7 @@ const Signup = () => {
 					</Flex>
 				</ProfilePicture>
 
-				<SignupBtn>가입하기</SignupBtn>
+				<SignupBtn type="submit">가입하기</SignupBtn>
 			</SignUpForm>
 
 			<Footer />
@@ -159,6 +213,15 @@ const Btn = styled.button`
 	color: #fff;
 	font-size: 14px;
 	font-weight: 500;
+`;
+
+const Message = styled.p`
+	width: 490px;
+	height: 13px;
+	margin: 15px 0 24px;
+	font-size: 10px;
+	text-align: left;
+	color: #f01a1a;
 `;
 
 const Password = styled.div`
