@@ -34,6 +34,7 @@ const Signup = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<FormInputData>({ resolver: yupResolver(schema) });
 
 	const onSubmitHandler: SubmitHandler<FormInputData> = (data) =>

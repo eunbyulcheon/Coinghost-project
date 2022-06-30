@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import styled from 'styled-components';
 
 const SignupSuccess = () => {
+	const router = useRouter();
 	return (
 		<View>
 			<Image
@@ -17,7 +19,9 @@ const SignupSuccess = () => {
 				height={313}
 				alt="coinghost"
 			/>
-			<EnterBtn>메인페이지로 이동</EnterBtn>
+			<EnterBtn onClick={() => router.push('/Blogger')}>
+				메인페이지로 이동
+			</EnterBtn>
 		</View>
 	);
 };
