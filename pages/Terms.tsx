@@ -4,12 +4,13 @@ import Header from '../components/signup/Header';
 import Footer from '../components/signup/Footer';
 import { termsList } from '../lib/termsList';
 import styled from 'styled-components';
-import { RiCheckboxCircleLine } from 'react-icons/ri';
 
 const Terms = () => {
 	const [isChecked, setIsChecked] = useState(
 		new Array(termsList.length).fill(false)
 	);
+	const required = termsList.slice(0, 3);
+	const router = useRouter();
 
 	console.log(isChecked);
 
@@ -29,9 +30,7 @@ const Terms = () => {
 		setIsChecked(updatedCheckbox);
 	};
 
-	const required = termsList.slice(0, 3);
-
-	const router = useRouter();
+	const isValid = (arr: any) => arr.every((value: boolean) => value === true);
 
 	return (
 		<>
@@ -41,14 +40,11 @@ const Terms = () => {
 				<SelectAllBtn>
 					<AllCheckbox
 						type="checkbox"
-						name="checkAll"
+						id="checkAll"
 						checked={isChecked.every((value) => value)}
 						onChange={selectAllHandler}
 					/>
-					<RiCheckbox>
-						<RiCheckboxCircleLine />
-					</RiCheckbox>
-					<SelectAllLabel>
+					<SelectAllLabel htmlFor="checkAll">
 						코인고스트 이용약관, 개인정보 처리방침, 이벤트 및 정보 안내
 						수신(선택)에 모두 동의합니다.
 					</SelectAllLabel>
@@ -62,14 +58,10 @@ const Terms = () => {
 							<Checkbox
 								type="checkbox"
 								id={`checkbox-${index}`}
-								name={list.name}
 								checked={isChecked[index]}
 								onChange={() => onChangeHandler(index)}
 							/>
-							<RiCheckbox onClick={() => onChangeHandler(index)}>
-								<RiCheckboxCircleLine />
-							</RiCheckbox>
-							<CheckboxLabel>
+							<CheckboxLabel htmlFor={`checkbox-${index}`}>
 								{list.title}
 								<span>({list.require})</span>
 							</CheckboxLabel>
@@ -83,7 +75,7 @@ const Terms = () => {
 					<NextBtn
 						type="button"
 						onClick={() => router.push('/Signup')}
-						// disabled={}
+						disabled={isValid(required)}
 					>
 						다음
 					</NextBtn>
@@ -109,21 +101,29 @@ const AllCheckbox = styled.input`
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 20px;
-	height: 20px;
-	display: none;
+	opacity: 0;
 	cursor: pointer;
 `;
 
 const SelectAllLabel = styled.label`
 	width: 461px;
 	height: 36px;
-	margin-left: 8px;
+	margin-left: 30px;
 	word-break: keep-all;
 	font-size: 14px;
 	font-weight: bold;
 	text-align: left;
 	color: #2b2b2b;
+
+	&::before {
+		content: '';
+		background: url('images/signup/checkbox.png');
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 20px;
+		height: 20px;
+	}
 `;
 
 const Bar = styled.div`
@@ -152,17 +152,10 @@ const Checkbox = styled.input`
 	opacity: 0;
 `;
 
-const RiCheckbox = styled(RiCheckboxCircleLine)`
-	width: 20px;
-	height: 20px;
-	background-color: #fff;
-	color: #c6c6c6;
-`;
-
-const CheckboxLabel = styled.p`
+const CheckboxLabel = styled.label`
 	width: 200px;
 	height: 18px;
-	margin-left: 8px;
+	margin-left: 30px;
 	font-size: 14px;
 	font-weight: bold;
 	text-align: left;
@@ -171,6 +164,16 @@ const CheckboxLabel = styled.p`
 	span {
 		color: #6f94e9;
 		margin-left: 4px;
+	}
+
+	&::before {
+		content: '';
+		background: url('images/signup/checkboxLight.png');
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 20px;
+		height: 20px;
 	}
 `;
 
@@ -203,20 +206,6 @@ const ConditionsText = styled.div`
 	&:last-child {
 		border: none;
 	}
-`;
-
-const OptionalCondition = styled(RequiredConditions)``;
-
-const OptionalConditionText = styled.p`
-	width: 487px;
-	height: 69px;
-	margin-top: 10px;
-	font-size: 12px;
-	font-weight: 500;
-	line-height: 1.5;
-	letter-spacing: -0.3px;
-	text-align: left;
-	color: #6f7070;
 `;
 
 const BtnDivide = styled.div`

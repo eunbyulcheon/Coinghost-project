@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -30,6 +31,8 @@ const schema = yup.object().shape({
 });
 
 const Signup = () => {
+	const [auth, setAuth] = useState(false);
+
 	const {
 		register,
 		handleSubmit,
@@ -39,6 +42,35 @@ const Signup = () => {
 
 	const onSubmitHandler: SubmitHandler<FormInputData> = (data) =>
 		console.log(data);
+
+	const handleRegister = () => {
+		const phone = watch('phone');
+		fetch('/api/register', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ phone }),
+		})
+			.then((res) => res.json())
+			.then((data) => alert(data?.data?.message));
+	};
+
+	const handleAuth = () => {
+		const auth = watch('code');
+		fetch('/api/auth', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ auth }),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.data.message === true) {
+					setAuth(true);
+					alert('인증되었습니다.');
+				} else {
+					alert(data.data.message);
+				}
+			});
+	};
 
 	return (
 		<>
@@ -70,7 +102,7 @@ const Signup = () => {
 							id="phone"
 							{...register('phone', { value: '82-' })}
 						/>
-						<Btn>인증번호 받기</Btn>
+						<Btn onClick={handleRegister}>인증번호 받기</Btn>
 					</Flex>
 					{errors.phone && <Message>{errors.phone?.message}</Message>}
 					<Flex>
@@ -80,7 +112,7 @@ const Signup = () => {
 							id="code"
 							{...register('code')}
 						/>
-						<Btn>인증하기</Btn>
+						<Btn onClick={handleAuth}>인증하기</Btn>
 					</Flex>
 					{errors.code && <Message>{errors.code?.message}</Message>}
 				</Phone>
