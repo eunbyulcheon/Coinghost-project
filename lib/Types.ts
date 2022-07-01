@@ -28,3 +28,20 @@ export interface BlogType {
 	comments: number;
 	contents: string;
 }
+
+export interface TermsListType {
+	id: number;
+	title: string;
+	name: string;
+	require: string;
+	text: string;
+}
+
+export interface FormInputData {
+	preventDefault: any;
+	phone: string;
+	code: string;
+	password: string;
+	pwConfirm: string;
+	nickname: string;
+}

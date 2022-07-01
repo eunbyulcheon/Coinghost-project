@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useInfiniteScroll } from '../lib/useInfiniteScroll';
+import Nav from '../components/blog/Nav';
 import IconHeader from '../components/common/IconHeader';
 import WriteButton from '../components/blog/WriteButton';
 import Tabs from '../components/blog/Tabs';
@@ -27,21 +28,7 @@ const Blogger = () => {
 	return (
 		<BlogSection>
 			<IconHeader />
-			<Header>
-				<Image
-					src="/images/burger.png"
-					width={50}
-					height={37}
-					alt="burger icon"
-				/>
-				<Title>블로고</Title>
-				<Image
-					src="/images/search.jpg"
-					width={39}
-					height={39}
-					alt="search icon"
-				/>
-			</Header>
+			<Nav />
 			<Image
 				src="/images/banner.png"
 				width={750}
@@ -69,23 +56,6 @@ const Blogger = () => {
 };
 
 const BlogSection = styled.section``;
-
-const Header = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 666px;
-	height: 50px;
-	margin: 0 auto 32px auto;
-	color: #5382eb;
-`;
-
-const Title = styled.h1`
-	display: inline-block;
-	width: 150px;
-	height: 100%;
-	font-size: 40px;
-`;
 
 const ButtonsDivide = styled.div`
 	display: flex;

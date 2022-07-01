@@ -3,13 +3,18 @@ import { useRouter } from 'next/router';
 import Header from '../components/signup/Header';
 import Footer from '../components/signup/Footer';
 import { termsList } from '../lib/termsList';
+import { TermsListType } from '../lib/Types';
 import styled from 'styled-components';
+
+interface Props {
+	includes: any;
+	arr: TermsListType;
+}
 
 const Terms = () => {
 	const [isChecked, setIsChecked] = useState(
 		new Array(termsList.length).fill(false)
 	);
-	const required = termsList.slice(0, 3);
 	const router = useRouter();
 
 	console.log(isChecked);
@@ -30,7 +35,8 @@ const Terms = () => {
 		setIsChecked(updatedCheckbox);
 	};
 
-	const isValid = (arr: any) => arr.every((value: boolean) => value === true);
+	const required: any = termsList.slice(0, 3);
+	const isValid = (arr: any[]) => arr.every((v: boolean) => v === true);
 
 	return (
 		<>
@@ -75,7 +81,7 @@ const Terms = () => {
 					<NextBtn
 						type="button"
 						onClick={() => router.push('/Signup')}
-						disabled={isValid(required)}
+						disabled={!isValid}
 					>
 						다음
 					</NextBtn>
