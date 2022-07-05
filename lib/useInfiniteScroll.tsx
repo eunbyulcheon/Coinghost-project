@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useSWRInfinite from 'swr/infinite';
 import { fetcher, baseUrl } from './DataFetcher';
-import { DataAPIType } from './Types';
+import { DataAPIType } from './types';
 
 export const useInfiniteScroll = ({ likes }: { likes: boolean }) => {
 	const PAGE_LIMIT = 10;
@@ -11,7 +11,6 @@ export const useInfiniteScroll = ({ likes }: { likes: boolean }) => {
 		previousPageData: { data: { data: object } }
 	) => {
 		if (previousPageData && !previousPageData.data) return null;
-		console.log(previousPageData);
 		let orderBy = '';
 		if (likes) {
 			orderBy = `&orderBy=likes`;

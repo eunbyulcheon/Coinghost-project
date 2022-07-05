@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Header from '../components/signup/Header';
-import Footer from '../components/signup/Footer';
-import { schema } from '../lib/schema';
-import { FormInputData } from '../lib/Types';
+import Header from '../../components/signup/Header';
+import Footer from '../../components/signup/Footer';
+import { schema } from '../../lib/SignupSchema';
+import { FormInputData } from '../../lib/types';
 import styled from 'styled-components';
 import Image from 'next/image';
 
@@ -15,11 +15,11 @@ const Signup = () => {
 		formState: { errors },
 		watch,
 	} = useForm<FormInputData>({ resolver: yupResolver(schema) });
-
 	const router = useRouter();
+
 	const onSubmitHandler: SubmitHandler<FormInputData> = (data) => {
 		console.log(data);
-		router.push('/SignupSuccess');
+		router.push('/signup/SignupSuccess');
 	};
 
 	const handleRegister = () => {
@@ -228,7 +228,8 @@ const Btn = styled.button`
 	height: 50px;
 	padding: 16px 25px;
 	border-radius: 3px;
-	background-color: ${(props) => (props.disabled ? '#c3d4fc' : '#6f94e9')};
+	background-color: ${(props) =>
+		props.disabled === true ? '#c3d4fc' : '#6f94e9'};
 	color: #fff;
 	font-size: 14px;
 	font-weight: 500;

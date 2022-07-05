@@ -1,48 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import Header from '../components/signup/Header';
-import Footer from '../components/signup/Footer';
-import { termsList } from '../lib/termsList';
-import { TermsListType } from '../lib/Types';
+import Header from '../../components/signup/Header';
+import Footer from '../../components/signup/Footer';
+import { useTermsChecker } from '../../lib/useTermsChecker';
+import { termsList } from '../../lib/termsList';
 import styled from 'styled-components';
 
-interface Props {
-	includes: any;
-	arr: TermsListType;
-}
-
-const Terms = () => {
-	const [isChecked, setIsChecked] = useState(
-		new Array(termsList.length).fill(false)
-	);
+const SignupTerms = () => {
+	const { isChecked, required, onChangeHandler, selectAllHandler, onSubmit } =
+		useTermsChecker();
 	const router = useRouter();
-
-	console.log(isChecked);
-
-	const onChangeHandler = (position: number) => {
-		const updatedCheckbox = isChecked.map((item, index) =>
-			index === position ? !item : item
-		);
-
-		setIsChecked(updatedCheckbox);
-	};
-
-	const selectAllHandler = (event: { target: { checked: boolean } }) => {
-		const updatedCheckbox = new Array(termsList.length).fill(
-			event.target.checked
-		);
-
-		setIsChecked(updatedCheckbox);
-	};
-
-	const required: any = termsList.slice(0, 3);
-	const isValid = (arr: any[]) => arr.every((v: boolean) => v === true);
 
 	return (
 		<>
 			<Header />
 
-			<TermsForm>
+			<TermsForm onSubmit={onSubmit}>
 				<SelectAllBtn>
 					<AllCheckbox
 						type="checkbox"
@@ -66,6 +39,7 @@ const Terms = () => {
 								id={`checkbox-${index}`}
 								checked={isChecked[index]}
 								onChange={() => onChangeHandler(index)}
+								required={list.required}
 							/>
 							<CheckboxLabel htmlFor={`checkbox-${index}`}>
 								{list.title}
@@ -80,8 +54,8 @@ const Terms = () => {
 					<CancelBtn>취소</CancelBtn>
 					<NextBtn
 						type="button"
-						onClick={() => router.push('/Signup')}
-						disabled={!isValid}
+						onClick={() => router.push('/signup/Signup')}
+						disabled={!required.every((el: boolean) => el === true)}
 					>
 						다음
 					</NextBtn>
@@ -107,7 +81,8 @@ const AllCheckbox = styled.input`
 	position: absolute;
 	top: 0;
 	left: 0;
-	opacity: 0;
+	width: 20px;
+	height: 20px;
 	cursor: pointer;
 `;
 
@@ -120,16 +95,6 @@ const SelectAllLabel = styled.label`
 	font-weight: bold;
 	text-align: left;
 	color: #2b2b2b;
-
-	&::before {
-		content: '';
-		background: url('images/signup/checkbox.png');
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 20px;
-		height: 20px;
-	}
 `;
 
 const Bar = styled.div`
@@ -155,7 +120,9 @@ const Checkbox = styled.input`
 	position: absolute;
 	top: 0;
 	left: 0;
-	opacity: 0;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
 `;
 
 const CheckboxLabel = styled.label`
@@ -170,16 +137,6 @@ const CheckboxLabel = styled.label`
 	span {
 		color: #6f94e9;
 		margin-left: 4px;
-	}
-
-	&::before {
-		content: '';
-		background: url('images/signup/checkboxLight.png');
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 20px;
-		height: 20px;
 	}
 `;
 
@@ -235,6 +192,10 @@ const CancelBtn = styled.button`
 const NextBtn = styled(CancelBtn)`
 	background-color: #6f94e9;
 	color: #fff;
+
+	&:disabled {
+		background-color: #b2c3ea;
+	}
 `;
 
-export default Terms;
+export default SignupTerms;

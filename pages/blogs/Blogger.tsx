@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useInfiniteScroll } from '../lib/useInfiniteScroll';
-import Nav from '../components/blog/Nav';
-import IconHeader from '../components/common/IconHeader';
-import WriteButton from '../components/blog/WriteButton';
-import Tabs from '../components/blog/Tabs';
-import BlogList from '../components/blog/BlogList';
+import { useInfiniteScroll } from '../../lib/useInfiniteScroll';
+import Nav from '../../components/blog/Nav';
+import IconHeader from '../../components/common/IconHeader';
+import WriteButton from '../../components/blog/WriteButton';
+import Tabs from '../../components/blog/Tabs';
+import BlogList from '../../components/blog/BlogList';
 import styled from 'styled-components';
 
 const Blogger = () => {
@@ -15,7 +15,6 @@ const Blogger = () => {
 	const { blogs, setTarget, isValidating } = useInfiniteScroll({ likes });
 
 	const tabsHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		// console.log(e.currentTarget.id);
 		if (e.currentTarget.id === 'likes') {
 			setAll(false);
 			setLikes(true);
@@ -49,7 +48,6 @@ const Blogger = () => {
 					</Link>
 				);
 			})}
-			{isValidating && <div>로딩중...</div>}
 			{!isValidating && <TargetElement ref={setTarget}></TargetElement>}
 		</BlogSection>
 	);

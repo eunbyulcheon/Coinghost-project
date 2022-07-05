@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Image from 'next/image';
 import React from 'react';
 
 interface Props {
@@ -16,21 +15,11 @@ const Tabs = ({ likes, all, tabsHandler }: Props) => {
 	return (
 		<TabsDivide>
 			<AllButton id="all" active={likes} onClick={(e) => tabsHandler(e)}>
-				<Image
-					src="/images/allposts.png"
-					width={72}
-					height={32}
-					alt="all posts"
-				/>
+				전체글
 			</AllButton>
 
 			<MostLikedButton id="likes" active={all} onClick={(e) => tabsHandler(e)}>
-				<Image
-					src="/images/mostliked.png"
-					width={72}
-					height={32}
-					alt="most liked"
-				/>
+				인기글
 			</MostLikedButton>
 		</TabsDivide>
 	);
@@ -55,6 +44,7 @@ const AllButton = styled.button<ButtonProps>`
 	padding: 11px 22px 10px;
 	border-radius: 26.5px;
 	background-color: ${(props) => (props?.active ? '#f0f6fd' : '#5382eb')};
+	color: ${(props) => (props?.active ? '#909090' : '#fff')};
 	text-align: center;
 	font-size: 26px;
 	font-weight: 500;

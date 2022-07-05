@@ -19,7 +19,7 @@ const SignupSuccess = () => {
 				height={313}
 				alt="coinghost"
 			/>
-			<EnterBtn onClick={() => router.push('/Blogger')}>
+			<EnterBtn onClick={() => router.push('/blogs/Blogger')}>
 				메인페이지로 이동
 			</EnterBtn>
 		</View>
